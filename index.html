@@ -1,0 +1,1143 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Community Helpers - AR/VR</title>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #000;
+}
+
+
+/* =====================================================
+   MAIN CITY SCREEN
+   ===================================================== */
+
+#cityScreen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* CITY 3D BACKGROUND */
+
+#cityFrame {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+}
+
+
+/* DARK OVERLAY */
+
+.overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.25),
+            rgba(0,0,0,0.05),
+            rgba(0,0,0,0.30)
+        );
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   TITLE
+   ===================================================== */
+
+.title {
+
+    position: absolute;
+
+    top: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: white;
+
+    font-size: 42px;
+    font-weight: 800;
+
+    text-align: center;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 3px 10px rgba(0,0,0,0.9),
+        0 0 20px rgba(255,255,255,0.25);
+
+    z-index: 10;
+
+    white-space: nowrap;
+
+    animation: titleFloat 3s ease-in-out infinite;
+}
+
+
+@keyframes titleFloat {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+
+}
+
+
+/* =====================================================
+   SUBTITLE
+   ===================================================== */
+
+.subtitle {
+
+    position: absolute;
+
+    top: 78px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: white;
+
+    font-size: 18px;
+
+    text-align: center;
+
+    text-shadow: 0 2px 7px rgba(0,0,0,0.9);
+
+    z-index: 10;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   HELPER BUTTON AREA
+   ===================================================== */
+
+.helperButtons {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(1050px, 94vw);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    justify-items: center;
+    align-items: center;
+
+    gap: 25px 30px;
+
+    z-index: 20;
+}
+
+
+/* =====================================================
+   CIRCULAR BUTTON
+   ===================================================== */
+
+.helperButton {
+
+    position: relative;
+
+    width: 145px;
+    height: 145px;
+
+    border: 4px solid rgba(255,255,255,0.85);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(255,255,255,0.98),
+            rgba(245,248,252,0.90) 45%,
+            rgba(210,220,235,0.85)
+        );
+
+    color: #172033;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 15px;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.45),
+        0 0 0 0 rgba(255,255,255,0.5);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+    backdrop-filter: blur(8px);
+
+    -webkit-backdrop-filter: blur(8px);
+
+    animation: floating 3.5s ease-in-out infinite;
+}
+
+
+/* FLOATING DELAYS */
+
+.helperButton:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.helperButton:nth-child(2) {
+    animation-delay: .4s;
+}
+
+.helperButton:nth-child(3) {
+    animation-delay: .8s;
+}
+
+.helperButton:nth-child(4) {
+    animation-delay: 1.2s;
+}
+
+.helperButton:nth-child(5) {
+    animation-delay: 1.6s;
+}
+
+.helperButton:nth-child(6) {
+    animation-delay: 2s;
+}
+
+.helperButton:nth-child(7) {
+    animation-delay: 2.4s;
+}
+
+.helperButton:nth-child(8) {
+    animation-delay: 2.8s;
+}
+
+.helperButton:nth-child(9) {
+    animation-delay: 3.2s;
+}
+
+
+/* FLOATING ANIMATION */
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-14px);
+    }
+
+}
+
+
+/* GLOW RING */
+
+.helperButton::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -10px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255,255,255,0.5);
+
+    opacity: 0;
+
+    transform: scale(.85);
+
+    transition: .4s ease;
+}
+
+
+/* HOVER */
+
+.helperButton:hover {
+
+    transform:
+        translateY(-12px)
+        scale(1.10);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,0.55),
+        0 0 30px rgba(255,255,255,0.75);
+
+    animation-play-state: paused;
+}
+
+
+.helperButton:hover::before {
+
+    opacity: 1;
+
+    transform: scale(1.08);
+}
+
+
+/* CLICK */
+
+.helperButton:active {
+
+    transform: scale(.94);
+
+}
+
+
+/* =====================================================
+   ICON
+   ===================================================== */
+
+.icon {
+
+    display: block;
+
+    font-size: 42px;
+
+    margin-bottom: 7px;
+
+    filter:
+        drop-shadow(
+            0 3px 3px rgba(0,0,0,.20)
+        );
+}
+
+
+.buttonText {
+
+    display: block;
+
+    line-height: 1.15;
+}
+
+
+/* =====================================================
+   MODEL SCREEN
+   ===================================================== */
+
+#modelScreen {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: #000;
+
+    z-index: 100;
+
+    animation: modelOpen .4s ease;
+}
+
+
+@keyframes modelOpen {
+
+    from {
+        opacity: 0;
+        transform: scale(1.03);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* MODEL FRAME */
+
+#modelFrame {
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+}
+
+
+/* =====================================================
+   BACK BUTTON
+   ===================================================== */
+
+#backButton {
+
+    position: absolute;
+
+    top: 20px;
+    left: 20px;
+
+    z-index: 200;
+
+    border: 2px solid rgba(255,255,255,.5);
+
+    border-radius: 50px;
+
+    padding: 13px 22px;
+
+    background: rgba(0,0,0,.65);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.5);
+
+    backdrop-filter: blur(10px);
+
+    transition: .3s ease;
+}
+
+
+#backButton:hover {
+
+    background: white;
+
+    color: #222;
+
+    transform: scale(1.06);
+}
+
+
+/* =====================================================
+   MODEL TITLE
+   ===================================================== */
+
+#modelTitle {
+
+    position: absolute;
+
+    top: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 200;
+
+    color: white;
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    text-shadow:
+        0 3px 8px black,
+        0 0 15px rgba(0,0,0,.8);
+
+    pointer-events: none;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   MOBILE / TABLET
+   ===================================================== */
+
+@media (max-width: 1000px) {
+
+    .helperButtons {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 20px;
+
+    }
+
+    .helperButton {
+
+        width: 125px;
+        height: 125px;
+
+        font-size: 13px;
+    }
+
+    .icon {
+        font-size: 34px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .title {
+
+        font-size: 28px;
+
+        top: 18px;
+    }
+
+    .subtitle {
+
+        top: 58px;
+
+        font-size: 13px;
+
+        white-space: normal;
+
+        width: 90%;
+    }
+
+    .helperButtons {
+
+        width: 96vw;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 14px 8px;
+    }
+
+    .helperButton {
+
+        width: 105px;
+        height: 105px;
+
+        font-size: 11px;
+
+        border-width: 3px;
+    }
+
+    .icon {
+
+        font-size: 28px;
+
+        margin-bottom: 4px;
+    }
+
+    #modelTitle {
+
+        top: 70px;
+
+        font-size: 20px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .title {
+
+        font-size: 22px;
+    }
+
+    .helperButton {
+
+        width: 88px;
+        height: 88px;
+
+        font-size: 9px;
+
+        padding: 7px;
+    }
+
+    .icon {
+
+        font-size: 24px;
+    }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE MOBILE
+   ===================================================== */
+
+@media (max-height: 600px) {
+
+    .title {
+
+        top: 10px;
+
+        font-size: 24px;
+    }
+
+    .subtitle {
+
+        display: none;
+    }
+
+    .helperButtons {
+
+        top: 55%;
+
+        gap: 10px;
+    }
+
+    .helperButton {
+
+        width: 90px;
+        height: 90px;
+
+        font-size: 10px;
+    }
+
+    .icon {
+
+        font-size: 24px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     COMMUNITY HELPERS MAIN SCREEN
+     ===================================================== -->
+
+<div id="cityScreen">
+
+
+    <!-- CITY 3D BACKGROUND -->
+
+ <iframe
+    id="cityFrame"
+    title="Community Helpers City"
+    frameborder="0"
+    allowfullscreen
+    mozallowfullscreen="true"
+    webkitallowfullscreen="true"
+    allow="autoplay; fullscreen; xr-spatial-tracking"
+    xr-spatial-tracking
+    execution-while-out-of-viewport
+    execution-while-not-rendered
+    web-share
+    src="https://sketchfab.com/models/edd1c604e1e045a0a2a552ddd9a293e6/embed?autostart=1&autospin=0.3">
+</iframe>
+
+
+    <!-- DARK OVERLAY -->
+
+    <div class="overlay"></div>
+
+
+    <!-- TITLE -->
+
+    <div class="title">
+
+        COMMUNITY HELPERS
+
+    </div>
+
+
+    <!-- SUBTITLE -->
+
+    <div class="subtitle">
+
+        Explore the people and places that keep our community running
+
+    </div>
+
+
+    <!-- =================================================
+         HELPER BUTTONS
+         ================================================= -->
+
+    <div class="helperButtons">
+
+
+        <!-- =================================================
+             1. FIREFIGHTER
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🚒 Firefighter',
+                'https://sketchfab.com/models/042691a0afb8497798bc50174f633e68/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🚒
+                </span>
+
+                <span class="buttonText">
+                    Firefighter
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             2. POLICE OFFICER - NEW MODEL
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '👮 Police Officer',
+                'https://sketchfab.com/models/43814ac9155b4cb08e1fecdebc7511ae/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    👮
+                </span>
+
+                <span class="buttonText">
+                    Police Officer
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             3. SOLDIER - NEW MODEL
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🪖 Soldier',
+                'https://sketchfab.com/models/94c0387e08cf47acaacb57d8315c9da8/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🪖
+                </span>
+
+                <span class="buttonText">
+                    Soldier
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             4. COMMUNITY CLEANER - NEW MODEL
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🧹 Community Cleaner',
+                'https://sketchfab.com/models/99762dfd07cb4ae4bac2047464fc4174/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🧹
+                </span>
+
+                <span class="buttonText">
+                    Community Cleaner
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             5. CONSTRUCTION WORKER
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🏗️ Construction Worker',
+                'https://sketchfab.com/models/5a2d049e2a2644a29b77b82875b3765e/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🏗️
+                </span>
+
+                <span class="buttonText">
+                    Construction Worker
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             6. WELDER
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🔧 Welder',
+                'https://sketchfab.com/models/00770465b82843208fc6b96257eea1e6/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🔧
+                </span>
+
+                <span class="buttonText">
+                    Welder
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             7. FIRE STATION
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🚒 Fire Station',
+                'https://sketchfab.com/models/16d949a14051436fb593de645528c462/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🚒
+                </span>
+
+                <span class="buttonText">
+                    Fire Station
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             8. POLICE STATION
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🚓 Police Station',
+                'https://sketchfab.com/models/e117fb60d0a84b8d81806905551bca3d/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🚓
+                </span>
+
+                <span class="buttonText">
+                    Police Station
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <!-- =================================================
+             9. EXTRA COMMUNITY HELPER SLOT
+             ================================================= -->
+
+        <button
+            class="helperButton"
+
+            onclick="openModel(
+                '🏙️ Community',
+                'https://sketchfab.com/models/edd1c604e1e045a0a2a552ddd9a293e6/embed?autostart=1'
+            )">
+
+            <span>
+
+                <span class="icon">
+                    🏙️
+                </span>
+
+                <span class="buttonText">
+                    Community
+                </span>
+
+            </span>
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     INDIVIDUAL MODEL SCREEN
+     ===================================================== -->
+
+<div id="modelScreen">
+
+
+    <!-- BACK BUTTON -->
+
+    <button
+        id="backButton"
+        onclick="backToCity()">
+
+        ← Back to City
+
+    </button>
+
+
+    <!-- MODEL TITLE -->
+
+    <div id="modelTitle"></div>
+
+
+    <!-- SELECTED SKETCHFAB MODEL -->
+
+    <iframe
+
+        id="modelFrame"
+
+        frameborder="0"
+
+        allowfullscreen
+
+        mozallowfullscreen="true"
+
+        webkitallowfullscreen="true"
+
+        allow="
+            autoplay;
+            fullscreen;
+            xr-spatial-tracking;
+            accelerometer;
+            gyroscope;
+            magnetometer
+        "
+
+        xr-spatial-tracking
+
+        execution-while-out-of-viewport
+
+        execution-while-not-rendered
+
+        web-share>
+
+    </iframe>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   OPEN MODEL
+   ===================================================== */
+
+function openModel(name, modelURL) {
+
+    const cityScreen =
+        document.getElementById("cityScreen");
+
+    const modelScreen =
+        document.getElementById("modelScreen");
+
+    const modelFrame =
+        document.getElementById("modelFrame");
+
+    const modelTitle =
+        document.getElementById("modelTitle");
+
+
+    /* Hide city */
+
+    cityScreen.style.display = "none";
+
+
+    /* Show model */
+
+    modelScreen.style.display = "block";
+
+
+    /* Set title */
+
+    modelTitle.innerText = name;
+
+
+    /*
+       Make sure Sketchfab starts automatically.
+    */
+
+    let finalURL = modelURL;
+
+
+    if (!finalURL.includes("autostart=1")) {
+
+        if (finalURL.includes("?")) {
+
+            finalURL += "&autostart=1";
+
+        } else {
+
+            finalURL += "?autostart=1";
+
+        }
+
+    }
+
+
+    /*
+       Load selected model
+    */
+
+    modelFrame.src = finalURL;
+
+}
+
+
+
+/* =====================================================
+   BACK TO CITY
+   ===================================================== */
+
+function backToCity() {
+
+    const modelFrame =
+        document.getElementById("modelFrame");
+
+    const modelScreen =
+        document.getElementById("modelScreen");
+
+    const cityScreen =
+        document.getElementById("cityScreen");
+
+
+    /*
+       Stop model
+    */
+
+    modelFrame.src = "";
+
+
+    /*
+       Hide model screen
+    */
+
+    modelScreen.style.display = "none";
+
+
+    /*
+       Show city
+    */
+
+    cityScreen.style.display = "block";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
